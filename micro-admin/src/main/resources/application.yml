@@ -1,0 +1,21 @@
+server:
+  port: 8220
+spring:
+  application:
+    name: micro-admin
+  cloud:
+    consul:
+      host: 172.17.0.1
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+        health-check-url: http://172.17.0.1:8220/actuator/health
+        hostname: 172.17.0.1
+#management:
+#  endpoint:
+#    health:
+#      show-details: always
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'

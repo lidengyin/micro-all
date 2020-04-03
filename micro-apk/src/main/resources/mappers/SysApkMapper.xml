@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hctech2006.micro.microapk.mapper.SysApkMapper">
+  <resultMap id="BaseResultMap" type="cn.hctech2006.micro.microapk.bean.SysApk">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="apk_name" jdbcType="VARCHAR" property="apkName" />
+    <result column="apk_pk" jdbcType="VARCHAR" property="apkPk" />
+    <result column="apk_vn" jdbcType="VARCHAR" property="apkVn" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
+    <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+    <result column="apk_vc" jdbcType="BIGINT" property="apkVc" />
+    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="apk_url" jdbcType="VARCHAR" property="apkUrl" />
+    <result column="apk_size" jdbcType="VARCHAR" property="apkSize" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_apk
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="cn.hctech2006.micro.microapk.bean.SysApk">
+    insert into sys_apk ( apk_name, apk_pk,
+      apk_vn, create_by, create_time, 
+      last_update_by, last_update_time, apk_vc, 
+      del_flag, apk_url, apk_size
+      )
+    values ( #{apkName,jdbcType=VARCHAR}, #{apkPk,jdbcType=VARCHAR},
+      #{apkVn,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdateBy,jdbcType=VARCHAR}, #{lastUpdateTime,jdbcType=TIMESTAMP}, #{apkVc,jdbcType=BIGINT}, 
+      #{delFlag,jdbcType=TINYINT}, #{apkUrl,jdbcType=VARCHAR}, #{apkSize,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" keyProperty="id" useGeneratedKeys="true" parameterType="cn.hctech2006.micro.microapk.bean.SysApk">
+    update sys_apk
+    set
+        <if test="delFlag != null">
+          del_flag=#{delFlag},
+        </if>
+        id=#{id}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, apk_name, apk_pk, apk_vn, create_by, create_time, last_update_by, last_update_time, 
+    apk_vc, del_flag, apk_url, apk_size
+    from sys_apk
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, apk_name, apk_pk, apk_vn, create_by, create_time, last_update_by, last_update_time, 
+    apk_vc, del_flag, apk_url, apk_size
+    from sys_apk
+  </select>
+  <select id="selectByDelFlag" parameterType="cn.hctech2006.micro.microapk.bean.SysApk" resultMap="BaseResultMap">
+    select *
+    from sys_apk where
+        1=1
+        <if test="delFlag != null">
+          and  del_flag = #{delFlag,jdbcType=TINYINT}
+        </if>
+
+  </select>
+  <update id="updateDelFlagById" parameterType="cn.hctech2006.micro.microapk.bean.SysApk" keyProperty="id" useGeneratedKeys="true">
+    update sys_apk
+    set del_flag = #{delFlag}
+    where id = #{id}
+  </update>
+</mapper>
